@@ -1,0 +1,14 @@
+{
+  "name": "test1",
+  "version": "1.0.0",
+  "description": "List",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Wesley R",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^1.8.3"
+  }
+}
