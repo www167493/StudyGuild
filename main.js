@@ -2,7 +2,7 @@ const electron = require('electron');
 const url = require('url');
 const path = require('path');
 
-const {app, BrowserWindow, Menu}= electron;
+const {app, BrowserWindow, Menu, ipcMain}= electron;
 
 let mainWindow;
 let addWindow;
@@ -50,6 +50,17 @@ function createAddWindow(){
     })
 }
 
+//Catch item: add
+ipcMain.on('item:add', function(e, item){
+    console.log(item);
+    mainWindow.webContents.send('item:add', item);
+    addWindow.close();
+})
+
+ipcMain.on('item:clear', function(){
+    addWindow.close();
+})
+
 //menu
 const mainMeunTemplate = [
     {
@@ -62,7 +73,10 @@ const mainMeunTemplate = [
                 }
             },
             {
-                label:'Clear Items'
+                label:'Clear Items',
+                click(){
+                    mainWindow.webContents.send('item:clear')
+                }
             },
             {
                 label:'Quit',
@@ -84,6 +98,19 @@ if(process.platform =='darwin'){
 //Add Dev TOol if not in prod
 if(process.env.NODE_ENV !=='prod'){
     mainMeunTemplate.push({
-        label
+        label: 'Developer Tools',
+        submenu:[
+            {
+                label: 'Toggle DevTool',
+                accelerator: process.platform =='darwin' ? 'Command + I' :
+                'Ctrl + I',
+                click(item, focusWindow){
+                    focusWindow.toggleDevTools();
+                }
+            },
+            {
+                role:'reload'
+            }
+        ]
     })
 }

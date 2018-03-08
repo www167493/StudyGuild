@@ -2,8 +2,42 @@
 <html>
     <head>
         <title>List</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     </head>
     <body>
-        <h1>List</h1>
+        <nav>
+            <div class="nav-wrapper">
+                <a class="brand-logo center">List</a>
+            </div>
+        </nav>
+
+
+        <ul class="collection"></ul>
+
+
+        <script>
+            const electron = require('electron');
+            const {ipcRenderer} = electron;
+
+            const ul = document.querySelector('ul');
+
+            ipcRenderer.on('item:add', function(e,item){
+                const li = document.createElement('li');
+                const itemText = document.createTextNode(item);
+                li.appendChild(itemText);
+                ul.appendChild(li);
+            });
+
+            ipcRenderer.on('item:clear', function(){
+                ul.innerHTML ='';
+            });
+
+            ul.addEventListener('dblclick',removeItem);
+
+            function removeItem(e){
+                e.target.remove();
+            }
+
+        </script>
     </body>
 </html>
