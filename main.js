@@ -4,6 +4,10 @@ const path = require('path');
 
 const {app, BrowserWindow, Menu, ipcMain}= electron;
 
+//set env
+
+process.env.NODE_ENV="production";
+
 let mainWindow;
 let addWindow;
 
@@ -96,7 +100,7 @@ if(process.platform =='darwin'){
 }
 
 //Add Dev TOol if not in prod
-if(process.env.NODE_ENV !=='prod'){
+if(process.env.NODE_ENV !=='production'){
     mainMeunTemplate.push({
         label: 'Developer Tools',
         submenu:[
